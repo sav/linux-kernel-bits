@@ -18,6 +18,8 @@ Modules
 * bh_timer: Defer to bottom half via Timers
 * ex_module: Dummie example module
 
+All modules print all debug messages prefixed by its name so it's easy to grep for their activity.
+
 Planned
 -------
 
