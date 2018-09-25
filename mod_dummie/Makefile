@@ -1,4 +1,4 @@
-obj-m += ex_trivial.o
+obj-m += mod_dummie.o
 
 KBUILDVERS ?= $(shell uname -r)
 KBUILDDIR ?= /lib/modules/$(KBUILDVERS)/build
