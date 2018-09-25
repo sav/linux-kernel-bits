@@ -22,17 +22,17 @@
 #include <linux/kernel.h>
 #include <linux/module.h>
 
-static int __init ex_trivial_init(void) {
-	pr_debug("loaded at 0x%p\n", ex_trivial_init);
+static int __init mod_dummie_init(void) {
+	pr_debug("loaded at 0x%p\n", mod_dummie_init);
 	return 0;
 }
 
-static void __exit ex_trivial_exit(void) {
-	pr_debug("unloaded from 0x%p\n", ex_trivial_exit);
+static void __exit mod_dummie_exit(void) {
+	pr_debug("unloaded from 0x%p\n", mod_dummie_exit);
 }
 
-module_init(ex_trivial_init);
-module_exit(ex_trivial_exit);
+module_init(mod_dummie_init);
+module_exit(mod_dummie_exit);
 
 MODULE_LICENSE("GPL v2");
 MODULE_VERSION("0.1");
