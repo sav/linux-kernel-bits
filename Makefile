@@ -1,4 +1,3 @@
-include $(PWD)/Makefile.inc
 
 SUBDIRS := bh_softirq bh_tasklet bh_timer bh_workqueue ex_trivial
 
