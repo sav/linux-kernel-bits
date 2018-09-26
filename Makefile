@@ -39,9 +39,13 @@ install:
 			sudo make -C $(KBUILDDIR) M=$(PWD)/$${mod} \
 				modules_install; \
 		done, true)
-	@make -C $(KSOURCEDIR) modules_install
-	@make -C $(KSOURCEDIR) install
+	@make install-source
 .PHONY: install
+
+install-source: $(KSOURCEDIR)/vmlinux
+	@sudo make -C $(KSOURCEDIR) modules_install
+	@sudo make -C $(KSOURCEDIR) install
+.PHONY: install-source
 
 config:
 	@$(call ask,really restore oldconfig?, \

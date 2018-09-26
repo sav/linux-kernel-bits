@@ -11,7 +11,7 @@ KSOURCEDIR   := $(KSOURCEPKG:.tar.xz=)
 KSOURCEURL   := https://cdn.kernel.org/pub/linux/kernel/v4.x/$(KSOURCEPKG)
 
 ifneq (,$(wildcard /proc/config.gz))
-KCATCONFIG      := zcat /proc/config.gz
+KCATCONFIG   := zcat /proc/config.gz
 else
-KCATCONFIG      := cat $(PWD)/.config
+KCATCONFIG   := cat $(PWD)/.config
 endif
