@@ -25,6 +25,14 @@ modules:
 		make -C $(KBUILDDIR) M=$(PWD)/$${mod} modules; \
 	done
 
+usermode: $(KSOURCEDIR)
+	@$(call ask,replace current build with usermode?, \
+	    cp $(PWD)/.config.um $(KSOURCEDIR)/.config; \
+	    make -C $(KSOURCEDIR) defconfig ARCH=um; \
+	    make -C $(KSOURCEDIR) prepare ARCH=um; \
+	    make -C $(KSOURCEDIR) ARCH=um, true)
+.PHONY: usermode
+
 install:
 	@$(call ask,install modules to $(KBUILDDIR)?, \
 		for mod in $(LKBMODULES); do \
@@ -116,6 +124,7 @@ help:
 	@echo "    rmmod: unload all modules"
 	@echo "  install: install to build directory"
 	@echo "   source: download source apply patches and build"
+	@echo " usermode: build user mode linux"
 	@echo "    clean: clean up all build files"
 	@echo "     help: show this help"
 	@echo ""
