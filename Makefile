@@ -28,7 +28,6 @@ modules:
 usermode: $(KSOURCEDIR)
 	@$(call ask,replace current build with usermode?, \
 	    cp $(PWD)/.config.um $(KSOURCEDIR)/.config; \
-	    make -C $(KSOURCEDIR) defconfig ARCH=um; \
 	    make -C $(KSOURCEDIR) prepare ARCH=um; \
 	    make -C $(KSOURCEDIR) ARCH=um, true)
 .PHONY: usermode
@@ -118,6 +117,7 @@ help:
 	@echo " ----"
 	@echo "      V=1: verbose output (silent if omitted)"
 	@echo "      Y=1: never ask for confirmation"
+	@echo "      D=1: enable debug information"
 	@echo ""
 	@echo " Rules"
 	@echo " ----- "
