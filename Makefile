@@ -25,12 +25,12 @@ modules:
 		make -C $(KBUILDDIR) M=$(PWD)/$${mod} modules; \
 	done
 
-usermode: $(KSOURCEDIR)
+um: $(KSOURCEDIR)
 	@$(call ask,replace current build with usermode?, \
 	    cp $(PWD)/.config.um $(KSOURCEDIR)/.config; \
 	    make -C $(KSOURCEDIR) prepare ARCH=um; \
 	    make -C $(KSOURCEDIR) ARCH=um, true)
-.PHONY: usermode
+.PHONY: um
 
 install:
 	@$(call ask,install modules to $(KBUILDDIR)?, \
@@ -52,18 +52,18 @@ config:
 		make -C $(KBUILDDIR)/ prepare, true)
 .PHONY: config
 
-insmod:
+load:
 	@for mod in $(LKBMODULES); do \
 		$(call ask,load $${mod}.ko?, \
 			sudo insmod $(PWD)/$${mod}/$${mod}.ko, true); \
 	done
-.PHONY: insmod
+.PHONY: load
 
-rmmod:
+unload:
 	@for mod in $(LKBMODULES); do \
 		$(call ask,unload $${mod}?, sudo rmmod $${mod}, true); \
 	done
-.PHONY: rmmod
+.PHONY: unload
 
 $(KSOURCEPKG):
 	@curl -k -O $(KSOURCEURL)
@@ -121,14 +121,12 @@ help:
 	@echo ""
 	@echo " Rules"
 	@echo " ----- "
-	@echo "      all: build source and modules"
-	@echo "   config: restore old config and prepare build"
+	@echo "      all: build everything"
 	@echo "  modules: compile all modules"
-	@echo "   insmod: load all modules"
-	@echo "    rmmod: unload all modules"
-	@echo "  install: install to build directory"
-	@echo "   source: download source apply patches and build"
-	@echo " usermode: build user mode linux"
+	@echo "     load: load all modules"
+	@echo "   unload: unload all modules"
+	@echo "  install: install to prefix"
+	@echo "       um: build user mode image"
 	@echo "    clean: clean up all build files"
 	@echo "     help: show this help"
 	@echo ""

@@ -1,13 +1,18 @@
-obj-m += bh_tasklet.o
+MODULE := bh_tasklet
 
-KBUILDVERS ?= $(shell uname -r)
-KBUILDDIR ?= /lib/modules/$(KBUILDVERS)/build
+CONFIGURE_MODULE_SIG=n
 
-EXTRA_CFLAGS += -ggdb3 -O1 -Werror -DDEBUG -I$(src)
+ifneq (,$(KERNELRELEASE))
+	obj-m += $(MODULE).o
+else
+	include ../config.mk
+endif
 
-all: module
+EXTRA_CFAGS += -I$(src)
 
-module:
+all: $(MODULE).ko
+
+$(MODULE).ko::
 	make -C ${KBUILDDIR} M=$(PWD) modules
 
 config:
@@ -17,7 +22,13 @@ config:
 install:
 	sudo make -C ${KBUILDDIR} M=$(PWD) modules_install
 
+load:
+	@sudo insmod $(MODULE).ko
+
+unload:
+	@sudo rmmod $(MODULE) || true
+
 clean:
 	make -C ${KBUILDDIR} M=$(PWD) clean
 
-.PHONY: config install clean
+.PHONY: load unload clean
