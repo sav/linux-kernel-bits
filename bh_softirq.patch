@@ -19,7 +19,7 @@ index eeceac3376fc..4a6ef4cb03e2 100644
  	NET_RX_SOFTIRQ,
  	BLOCK_SOFTIRQ,
  	IRQ_POLL_SOFTIRQ,
-+	SAV_SOFTIRQ,
++	LKB_SOFTIRQ,
  	TASKLET_SOFTIRQ,
  	SCHED_SOFTIRQ,
  	HRTIMER_SOFTIRQ, /* Unused, but kept as tools rely on the
@@ -39,7 +39,7 @@ index 6746c85511fe..bd27526156e8 100644
  	call_rcu_sched(&freeinit->rcu, do_free_init);
  	mutex_unlock(&module_mutex);
  	wake_up_all(&module_wq);
-+	raise_softirq(SAV_SOFTIRQ);
++	raise_softirq(LKB_SOFTIRQ);
  
  	return 0;
  
@@ -51,10 +51,10 @@ index 6f584861d329..a792a091cad6 100644
  	tasklet_action_common(a, this_cpu_ptr(&tasklet_hi_vec), HI_SOFTIRQ);
  }
  
-+static __latent_entropy void sav_action(struct softirq_action *a)
++static __latent_entropy void lkb_action(struct softirq_action *a)
 +{
 +	/* runs with interrupt enabled, can't sleep */
-+	printk(KERN_DEBUG "%s: called\n", __FUNCTION__);
++	printk(KERN_DEBUG "%s: module loaded\n", __FUNCTION__);
 +}
 +
  void tasklet_init(struct tasklet_struct *t,
@@ -64,7 +64,7 @@ index 6f584861d329..a792a091cad6 100644
  
  	open_softirq(TASKLET_SOFTIRQ, tasklet_action);
  	open_softirq(HI_SOFTIRQ, tasklet_hi_action);
-+	open_softirq(SAV_SOFTIRQ, sav_action);
++	open_softirq(LKB_SOFTIRQ, lkb_action);
  }
  
  static int ksoftirqd_should_run(unsigned int cpu)
