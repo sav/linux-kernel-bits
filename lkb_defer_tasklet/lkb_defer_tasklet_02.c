@@ -26,7 +26,7 @@
 #include <linux/atomic.h>
 #include <linux/smp.h>
 
-#define COUNT_MAX 64000000
+#define COUNT_MAX 64
 
 static void tasklet_handler(unsigned long);
 
@@ -46,11 +46,9 @@ static void tasklet_handler(unsigned long is_hi)
 		else tasklet_schedule(&tasklet);
 	}
 
-	if (atomic_read(count) % 100000) {
-		pr_info("cpu-%d: count = %d, %ssched()\n",
-		        smp_processor_id(), atomic_read(count),
-		        is_hi ? "hi_" : "");
-	}
+	pr_info("cpu-%d: count = %d, %ssched()\n",
+	        smp_processor_id(), atomic_read(count),
+	        is_hi ? "hi_" : "");
 }
 
 static int __init lkb_defer_tasklet_init(void)

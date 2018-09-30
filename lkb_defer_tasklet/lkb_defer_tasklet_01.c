@@ -47,7 +47,7 @@ DECLARE_TASKLET(tasklet_hi, tasklet_handler, 1UL);
  * finally, since again smp is not taking place in this
  * code we don't need to worry about out-of-order
  * execution, memory barriers and so on. let's start
- *  with the simplest tasklet possible.
+ * with the simplest tasklet possible.
  *
  * regarding the tasklet handler there are still some
  * things to consider and looks bad in this implementation
@@ -90,7 +90,7 @@ static void __exit lkb_defer_tasklet_exit(void)
 module_init(lkb_defer_tasklet_init);
 module_exit(lkb_defer_tasklet_exit);
 
-MODULE_AUTHOR("sav <sav@loophole.cc>");
 MODULE_LICENSE("GPL v2");
 MODULE_VERSION("0.0.1");
+MODULE_AUTHOR("sav <sav@loophole.cc>");
 MODULE_DESCRIPTION(__FILE__);
