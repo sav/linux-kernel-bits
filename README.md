@@ -13,14 +13,14 @@ Please edit `config.mk` and set the variables accordingly then either pick your 
 Modules
 -------
 
-* `bh_tasklet`: Defer to bottom half via *Tasklets*
-* `bh_workqueue`: Defer to bottom half via *Workqueues*
-* `bh_timer`: Defer to bottom half via *Timers*
-* `mod_dummie`: Dummie example module
+* `lkb_defer_tasklet`: Defer to bottom half via *Tasklets*
+* `lkb_defer_workqueue`: Defer to bottom half via *Workqueues*
+* `lkb_defer_timer`: Defer to bottom half via *Timers*
+* `lkb_dummie`: Dummie example module
 
 Patches
 -------
-* `bh_softirq.patch`: Defer to bottom half via *Softirq*. Softirqs are statically compiled thus a patch instead of a module
+* `lkb_defer_softirq.patch`: Defer to bottom half via *Softirq*. Softirqs are statically compiled thus a patch instead of a module
 
 Planned
 -------

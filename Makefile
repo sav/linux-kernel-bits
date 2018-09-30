@@ -2,7 +2,8 @@ include $(PWD)/config.mk
 
 LKBVERSION := $(shell cat $(PWD)/VERSION)
 LKBPATCHES := $(wildcard *.patch)
-LKBMODULES := bh_tasklet bh_timer bh_workqueue mod_dummie
+LKBMODULES := lkb_defer_tasklet lkb_defer_timer \
+	lkb_defer_workqueue lkb_dummie
 
 define ask
 	test $(Y) || ( read -p "$1 " ans && \
@@ -39,6 +40,7 @@ install:
 			sudo make -C $(KBUILDDIR) M=$(PWD)/$${mod} \
 				modules_install; \
 		done, true)
+		sudo cp -f $(KBUILDDIR)/System.map /boot
 	@make install-source
 .PHONY: install
 

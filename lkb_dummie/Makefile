@@ -1,4 +1,4 @@
-obj-m += bh_timer.o
+obj-m += lkb_dummie.o
 
 KBUILDVERS ?= $(shell uname -r)
 KBUILDDIR ?= /lib/modules/$(KBUILDVERS)/build
@@ -20,4 +20,4 @@ install:
 clean:
 	make -C ${KBUILDDIR} M=$(PWD) clean
 
-.PHONY: config install clean
+.PHONY: module config install clean

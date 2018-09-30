@@ -24,42 +24,39 @@
 #include <linux/compiler.h>
 #include <linux/interrupt.h>
 #include <linux/atomic.h>
+#include <linux/smp.h>
 
-#define COUNT_MAX 64
+#define COUNT_MAX 64000000
 
 static void tasklet_handler(unsigned long);
 
 DECLARE_TASKLET(tasklet, tasklet_handler, 0UL);
 DECLARE_TASKLET(tasklet_hi, tasklet_handler, 1UL);
 
-/* there's no need to use locks because both tasklet and
- * tasklet_hi are guaranteed to run in the same thread and
- * no memory is shared among any interruption handler. 
- * if only the first case was false we could add spink_lock()
- * guards, which are less onerous than its counterpart
- * spin_lock_irqsave(). the latter would be required if both
- * of the cases were false. if only the second case is false
- * we would disable irq during all task_handler(). finally,
- * we use atomic_t to avoid out of order execution in smp.
- *
- * the use of tasklets is discouraged by kernel developers.
- * consider using the new workqueues api instead.
- */
 static atomic_t count[1];
+static int cpu = -1;
 
 static void tasklet_handler(unsigned long is_hi)
 {
+	if (cpu != smp_processor_id()) pr_err("cpu changed!\n");
+
 	atomic_inc(count);
 	if (atomic_read(count) + 1 < COUNT_MAX) {
 		if (is_hi) tasklet_hi_schedule(&tasklet_hi);
 		else tasklet_schedule(&tasklet);
 	}
+
+	if (atomic_read(count) % 100000) {
+		pr_info("cpu-%d: count = %d, %ssched()\n",
+		        smp_processor_id(), atomic_read(count),
+		        is_hi ? "hi_" : "");
+	}
 }
 
-static int __init bh_tasklet_init(void)
+static int __init lkb_defer_tasklet_init(void)
 {
-	pr_debug("loaded at 0x%p\n", bh_tasklet_init);
-	pr_info("entering with count = %d\n", atomic_read(count));
+	pr_debug("loaded at 0x%p\n", lkb_defer_tasklet_init);
+	if (cpu == -1) cpu = smp_processor_id();
 
 	tasklet_schedule(&tasklet);
 	tasklet_hi_schedule(&tasklet_hi);
@@ -67,14 +64,14 @@ static int __init bh_tasklet_init(void)
 	return 0;
 }
 
-static void __exit bh_tasklet_exit(void) 
+static void __exit lkb_defer_tasklet_exit(void) 
 {
 	pr_info("exited with count = %d\n", atomic_read(count));
-	pr_debug("unloaded from 0x%p\n", bh_tasklet_exit);
+	pr_debug("unloaded from 0x%p\n", lkb_defer_tasklet_exit);
 }
 
-module_init(bh_tasklet_init);
-module_exit(bh_tasklet_exit);
+module_init(lkb_defer_tasklet_init);
+module_exit(lkb_defer_tasklet_exit);
 
 MODULE_AUTHOR("sav <sav@loophole.cc>");
 MODULE_LICENSE("GPL v2");

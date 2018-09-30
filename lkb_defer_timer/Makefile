@@ -1,4 +1,4 @@
-obj-m += mod_dummie.o
+obj-m += lkb_defer_timer.o
 
 KBUILDVERS ?= $(shell uname -r)
 KBUILDDIR ?= /lib/modules/$(KBUILDVERS)/build
@@ -20,4 +20,4 @@ install:
 clean:
 	make -C ${KBUILDDIR} M=$(PWD) clean
 
-.PHONY: module config install clean
+.PHONY: config install clean

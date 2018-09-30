@@ -1,18 +1,20 @@
-MODULE := bh_tasklet
+
+MODULES := lkb_defer_tasklet_01 \
+           lkb_defer_tasklet_02
 
 CONFIGURE_MODULE_SIG=n
 
+EXTRA_CFAGS += -I$(src)
+
 ifneq (,$(KERNELRELEASE))
-	obj-m += $(MODULE).o
+	obj-m += $(MODULES:=.o)
 else
 	include ../config.mk
 endif
 
-EXTRA_CFAGS += -I$(src)
+all: modules
 
-all: $(MODULE).ko
-
-$(MODULE).ko::
+modules:
 	make -C ${KBUILDDIR} M=$(PWD) modules
 
 config:
@@ -23,12 +25,17 @@ install:
 	sudo make -C ${KBUILDDIR} M=$(PWD) modules_install
 
 load:
-	@sudo insmod $(MODULE).ko
+	$(shell for mod in $(MODULES); do \
+		sudo insmod $$mod.ko; \
+	done)
 
 unload:
-	@sudo rmmod $(MODULE) || true
+	$(shell for mod in $(MODULES); do \
+		sudo rmmod $$mod; \
+	done)
 
 clean:
 	make -C ${KBUILDDIR} M=$(PWD) clean
 
 .PHONY: load unload clean
+

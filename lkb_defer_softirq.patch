@@ -51,7 +51,7 @@ index 6f584861d329..a792a091cad6 100644
  	tasklet_action_common(a, this_cpu_ptr(&tasklet_hi_vec), HI_SOFTIRQ);
  }
  
-+static __latent_entropy void lkb_action(struct softirq_action *a)
++static __latent_entropy void lkb_softirq_action(struct softirq_action *a)
 +{
 +	/* runs with interrupt enabled, can't sleep */
 +	printk(KERN_DEBUG "%s: module loaded\n", __FUNCTION__);
@@ -64,7 +64,7 @@ index 6f584861d329..a792a091cad6 100644
  
  	open_softirq(TASKLET_SOFTIRQ, tasklet_action);
  	open_softirq(HI_SOFTIRQ, tasklet_hi_action);
-+	open_softirq(LKB_SOFTIRQ, lkb_action);
++	open_softirq(LKB_SOFTIRQ, lkb_softirq_action);
  }
  
  static int ksoftirqd_should_run(unsigned int cpu)

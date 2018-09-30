@@ -22,17 +22,17 @@
 #include <linux/kernel.h>
 #include <linux/module.h>
 
-static int __init bh_timer_init(void) {
-	pr_debug("loaded at 0x%p\n", bh_timer_init);
+static int __init lkb_dummie_init(void) {
+	pr_debug("loaded at 0x%p\n", lkb_dummie_init);
 	return 0;
 }
 
-static void __exit bh_timer_exit(void) {
-	pr_debug("unloaded from 0x%p\n", bh_timer_exit);
+static void __exit lkb_dummie_exit(void) {
+	pr_debug("unloaded from 0x%p\n", lkb_dummie_exit);
 }
 
-module_init(bh_timer_init);
-module_exit(bh_timer_exit);
+module_init(lkb_dummie_init);
+module_exit(lkb_dummie_exit);
 
 MODULE_LICENSE("GPL v2");
 MODULE_VERSION("0.1");

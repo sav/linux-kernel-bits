@@ -1,4 +1,4 @@
-obj-m += bh_workqueue.o
+obj-m += lkb_defer_workqueue.o
 
 KBUILDVERS ?= $(shell uname -r)
 KBUILDDIR ?= /lib/modules/$(KBUILDVERS)/build
