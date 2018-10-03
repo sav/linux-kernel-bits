@@ -21,6 +21,7 @@
 #include <linux/init.h>
 #include <linux/kernel.h>
 #include <linux/module.h>
+#include <linux/compiler.h>
 
 /**
  * if you need your bottom-half to sleep you need workqueues. workqueues
@@ -51,5 +52,6 @@ module_init(lkb_defer_workqueue_init);
 module_exit(lkb_defer_workqueue_exit);
 
 MODULE_LICENSE("GPL v2");
-MODULE_VERSION("0.1");
+MODULE_VERSION("0.0.1");
+MODULE_AUTHOR("sav <sav@loophole.cc>");
 MODULE_DESCRIPTION(__FILE__);
