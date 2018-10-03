@@ -1,9 +1,15 @@
-obj-m += lkb_defer_workqueue.o
 
-KBUILDVERS ?= $(shell uname -r)
-KBUILDDIR ?= /lib/modules/$(KBUILDVERS)/build
+MODULES := lkb_defer_workqueue
 
-EXTRA_CFLAGS += -ggdb3 -O1 -Werror -DDEBUG -I$(src)
+CONFIGURE_MODULE_SIG=n
+
+ifneq (,$(KERNELRELEASE))
+	obj-m += $(MODULES:=.o)
+else
+	include ../config.mk
+endif
+
+EXTRA_CFLAGS += -I$(src)
 
 all: module
 
@@ -17,7 +23,17 @@ config:
 install:
 	sudo make -C ${KBUILDDIR} M=$(PWD) modules_install
 
+load:
+	$(shell for mod in $(MODULES); do \
+		sudo insmod $$mod.ko; \
+	done)
+
+unload:
+	$(shell for mod in $(MODULES); do \
+		sudo rmmod $$mod; \
+	done)
+
 clean:
 	make -C ${KBUILDDIR} M=$(PWD) clean
 
-.PHONY: config install clean
+.PHONY: module config install load unload clean

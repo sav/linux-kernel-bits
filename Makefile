@@ -96,7 +96,7 @@ clean-modules:
 		make -C $(KBUILDDIR) M=$(PWD)/$${mod} clean; \
 	done
 	@make -C $(KBUILDDIR) M=$(PWD) clean
-	@rm -f modules.order
+	@$(shell find . -name modules.order -exec rm -f {} \;)
 .PHONY: clean-modules
 
 clean:

@@ -3,13 +3,14 @@ MODULES := lkb_defer_tasklet
 
 CONFIGURE_MODULE_SIG=n
 
-EXTRA_CFAGS += -I$(src)
-
 ifneq (,$(KERNELRELEASE))
 	obj-m += $(MODULES:=.o)
+	ccflags-y += $(EXTRA_CFLAGS)
 else
 	include ../config.mk
 endif
+
+EXTRA_CFLAGS += -I$(src)
 
 all: modules
 
@@ -36,5 +37,4 @@ unload:
 clean:
 	make -C ${KBUILDDIR} M=$(PWD) clean
 
-.PHONY: load unload clean
-
+.PHONY: module config install load unload clean

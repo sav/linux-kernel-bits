@@ -2,12 +2,12 @@
 
 CC           := clang
 SHELL        := /bin/bash
-EXTRA_CFLAGS := -Wall -Werr
+EXTRA_CFLAGS := -Wall -Werror
 
 ifneq (,$(D))
-	EXTRA_CFLAGS += -O1 -ggdb3 -DDEBUG -DDEBUG_KERNEL -DDEBUG_INFO
+	export EXTRA_CFLAGS += -O1 -ggdb3 -DDEBUG -DDEBUG_KERNEL -DDEBUG_INFO
 else
-	EXTRA_CFLAGS += -O3 -DNDEBUG
+	export EXTRA_CFLAGS += -O3 -DNDEBUG
 endif
 
 ifneq (4, $(shell uname -r | cut -f1 -d.))
