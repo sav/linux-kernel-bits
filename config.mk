@@ -1,12 +1,13 @@
 # configuration file, feel free to make any changes.
 
 CC           := clang
-SHELL        := /bin/sh
+SHELL        := /bin/bash
+EXTRA_CFLAGS := -Wall -Werr
 
 ifneq (,$(D))
-	EXTRA_CFLAGS := -O1 -Wall -Werr -DDEBUG -ggdb3
+	EXTRA_CFLAGS += -O1 -ggdb3 -DDEBUG -DDEBUG_KERNEL -DDEBUG_INFO
 else
-	EXTRA_CFLAGS := -O3 -Wall -Werr -DNDEBUG
+	EXTRA_CFLAGS += -O3 -DNDEBUG
 endif
 
 ifneq (4, $(shell uname -r | cut -f1 -d.))
