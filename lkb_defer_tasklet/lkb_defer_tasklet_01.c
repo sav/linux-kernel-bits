@@ -49,13 +49,6 @@ DECLARE_TASKLET(tasklet_hi, tasklet_handler, 1UL);
  * execution, memory barriers and so on. let's start
  * with the simplest tasklet possible.
  *
- * regarding the tasklet handler there are still some
- * things to consider and looks bad in this implementation
- * but for now I will only state that handling softirqs
- * immediately and rescheduling them right away for the
- * mmediate next __do_softirq can lead the kernel to
- * exhaustion in same cases.
- *
  * note: the use of tasklets is discouraged by the kernel
  *       community. consider the new workqueues api.
  */
