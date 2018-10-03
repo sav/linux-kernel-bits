@@ -34,20 +34,24 @@ um: $(KSOURCEDIR)
 	    make -C $(KSOURCEDIR) ARCH=um, true)
 .PHONY: um
 
-install:
+install-modules:
 	@$(call ask,install modules to $(KBUILDDIR)?, \
 		for mod in $(LKBMODULES); do \
 			sudo make -C $(KBUILDDIR) M=$(PWD)/$${mod} \
 				modules_install; \
 		done, true)
-		sudo cp -f $(KBUILDDIR)/System.map /boot
-	@make install-source
-.PHONY: install
+	sudo cp -f $(KBUILDDIR)/System.map /boot
+.PHONY: install-modules
 
 install-source: $(KSOURCEDIR)/vmlinux
 	@sudo make -C $(KSOURCEDIR) modules_install
 	@sudo make -C $(KSOURCEDIR) install
 .PHONY: install-source
+
+install:
+	@make install-source
+	@make install-modules
+.PHONY: install
 
 config:
 	@$(call ask,really restore oldconfig?, \
@@ -57,14 +61,14 @@ config:
 
 load:
 	@for mod in $(LKBMODULES); do \
-		$(call ask,load $${mod}.ko?, \
-			sudo insmod $(PWD)/$${mod}/$${mod}.ko, true); \
+		sudo insmod $(PWD)/$${mod}/$${mod}.ko >& /dev/null || true; \
 	done
+	@lsmod | grep lkb_
 .PHONY: load
 
 unload:
 	@for mod in $(LKBMODULES); do \
-		$(call ask,unload $${mod}?, sudo rmmod $${mod}, true); \
+		sudo rmmod $${mod} >& /dev/null || true; \
 	done
 .PHONY: unload
 

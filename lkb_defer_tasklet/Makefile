@@ -1,20 +1,18 @@
-
 MODULES := lkb_defer_tasklet
 
 CONFIGURE_MODULE_SIG=n
 
 ifneq (,$(KERNELRELEASE))
 	obj-m += $(MODULES:=.o)
-	ccflags-y += $(EXTRA_CFLAGS)
 else
 	include ../config.mk
 endif
 
 EXTRA_CFLAGS += -I$(src)
 
-all: modules
+all: module
 
-modules:
+module:
 	make -C ${KBUILDDIR} M=$(PWD) modules
 
 config:
@@ -28,11 +26,13 @@ load:
 	$(shell for mod in $(MODULES); do \
 		sudo insmod $$mod.ko; \
 	done)
+	@lsmod | grep lkb_
 
 unload:
 	$(shell for mod in $(MODULES); do \
 		sudo rmmod $$mod; \
 	done)
+	@lsmod | grep lkb_
 
 clean:
 	make -C ${KBUILDDIR} M=$(PWD) clean
