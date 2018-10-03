@@ -1,6 +1,5 @@
 
-MODULES := lkb_defer_tasklet_01 \
-           lkb_defer_tasklet_02
+MODULES := lkb_defer_tasklet
 
 CONFIGURE_MODULE_SIG=n
 
