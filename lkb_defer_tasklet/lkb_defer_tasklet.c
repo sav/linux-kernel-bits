@@ -46,12 +46,14 @@ DECLARE_TASKLET(tasklet_hi, tasklet_handler, 1UL);
  *
  * finally, since again smp is not taking place in this
  * code we don't need to worry about out-of-order
- * execution, memory barriers and so on. let's start
- * with the simplest tasklet possible.
+ * execution, memory barriers and so on. let's start with
+ * the simplest tasklet possible.
  *
- * note: the use of tasklets is discouraged by the kernel
- *       community. consider the new workqueues api.
+ * despite the relaxed locking requirements tasklets still
+ * can't sleep. if you need your defered work to sleep use
+ * workqueues.
  */
+
 static int count;
 
 static void tasklet_handler(unsigned long is_hi)
