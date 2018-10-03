@@ -21,7 +21,7 @@
 #include <linux/init.h>
 #include <linux/kernel.h>
 #include <linux/module.h>
-#include <linux/compiler.h>
+#include <linux/workqueue.h>
 
 /**
  * if you need your bottom-half to sleep you need workqueues. workqueues
@@ -39,12 +39,25 @@
  * cpu number. there is one worker thread per cpu.
  */
 
-static int __init lkb_defer_workqueue_init(void) {
+void somework(struct work_struct *);
+
+DECLARE_WORK(somework_, somework);
+
+void somework(struct work_struct *data)
+{
+	pr_info("somework()\n");
+}
+
+static int __init lkb_defer_workqueue_init(void)
+{
 	pr_debug("loaded at 0x%p\n", lkb_defer_workqueue_init);
+	schedule_work(&somework_);
 	return 0;
 }
 
-static void __exit lkb_defer_workqueue_exit(void) {
+static void __exit lkb_defer_workqueue_exit(void)
+{
+	flush_scheduled_work();
 	pr_debug("unloaded from 0x%p\n", lkb_defer_workqueue_exit);
 }
 
