@@ -91,12 +91,17 @@ patch: $(KSOURCEDIR)
 
 source: $(KSOURCEDIR)/vmlinux
 
-clean:
+clean-modules:
 	@for mod in $(LKBMODULES); do \
 		make -C $(KBUILDDIR) M=$(PWD)/$${mod} clean; \
 	done
 	@make -C $(KBUILDDIR) M=$(PWD) clean
-	@rm -rf modules.order $(KSOURCEPKG) $(KSOURCEDIR)
+	@rm -f modules.order
+.PHONY: clean-modules
+
+clean:
+	make clean-modules
+	@rm -rf $(KSOURCEPKG) $(KSOURCEDIR)
 .PHONY: clean
 
 help:
