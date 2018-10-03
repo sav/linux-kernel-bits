@@ -22,6 +22,22 @@
 #include <linux/kernel.h>
 #include <linux/module.h>
 
+/**
+ * if you need your bottom-half to sleep you need workqueues. workqueues
+ * have all the benefits of the process context besides being schedulable.
+ * it's usually used for example when your defered work needs to allocate
+ * a lot of memory or perform blocking i/o. kernel threads would indeed be
+ * an alternative to workqueues but the latter do have a much better api.
+ * if you don't need a kernel thread or, if your defered work doesn't need
+ * to sleep, use tasklets instead. see lkb_defer_tasklet.c.
+ *
+ * roughly speeking the workqueues subsystem actually provides an an
+ * interface to create kernel threads tohandle work queued previously
+ * from another part of the code. these kernel threads are called worker
+ * threads. the default worker threads are called event/n where n is the
+ * cpu number. there is one worker thread per cpu.
+ */
+
 static int __init lkb_defer_workqueue_init(void) {
 	pr_debug("loaded at 0x%p\n", lkb_defer_workqueue_init);
 	return 0;
