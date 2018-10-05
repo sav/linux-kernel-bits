@@ -7,7 +7,7 @@ EXTRA_CFLAGS := -Wall -Werror
 ifneq (,$(D))
 	export EXTRA_CFLAGS += -O1 -ggdb3 -DDEBUG -DDEBUG_KERNEL -DDEBUG_INFO
 else
-	export EXTRA_CFLAGS += -O3 -DNDEBUG
+	export EXTRA_CFLAGS += -O3
 endif
 
 ifneq (4, $(shell uname -r | cut -f1 -d.))

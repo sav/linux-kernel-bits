@@ -5,6 +5,8 @@ LKBPATCHES := $(wildcard *.patch)
 LKBMODULES := lkb_defer_tasklet lkb_defer_timer \
 	lkb_defer_workqueue lkb_dummie
 
+CONFIGURE_MODULE_SIG=n
+
 define ask
 	test $(Y) || ( read -p "$1 " ans && \
 		test $$ans = 'y' ) &&  $2 || $3
