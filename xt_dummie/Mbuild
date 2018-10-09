@@ -1,0 +1,2 @@
+include $(PWD)/mconfig
+obj-${build_DUMMIE} += libxt_dummie.o
