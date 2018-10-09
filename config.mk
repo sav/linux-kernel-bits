@@ -16,8 +16,8 @@ else
 	KBUILDVERS ?= $(shell uname -r | grep -oE [0-9.]+ | head -1)
 endif
 
-KERNELVERSION = $(KBUILDDIR)
 KBUILDDIR    ?= /lib/modules/$(KBUILDVERS)/build
+KERNELVERSION = $(KBUILDDIR)
 KSOURCEVER   := $(KBUILDVERS)
 KSOURCEPKG   := linux-$(KSOURCEVER).tar.xz
 KSOURCEDIR   := $(KSOURCEPKG:.tar.xz=)
