@@ -1,4 +1,4 @@
-MODULES := lkb_defer_tasklet
+MODULES := mod_dummie
 
 CONFIGURE_MODULE_SIG=n
 
@@ -26,13 +26,11 @@ load:
 	$(shell for mod in $(MODULES); do \
 		sudo insmod $$mod.ko; \
 	done)
-	@lsmod | grep lkb_
 
 unload:
 	$(shell for mod in $(MODULES); do \
 		sudo rmmod $$mod; \
 	done)
-	@lsmod | grep lkb_
 
 clean:
 	make -C ${KBUILDDIR} M=$(PWD) clean

@@ -30,7 +30,7 @@
  * a lot of memory or perform blocking i/o. kernel threads would indeed be
  * an alternative to workqueues but the latter do have a much better api.
  * if you don't need a kernel thread or, if your defered work doesn't need
- * to sleep, use tasklets instead. see lkb_defer_tasklet.c.
+ * to sleep, use tasklets instead. see defer_tasklet.c.
  *
  * roughly speeking the workqueues subsystem actually provides an an
  * interface to create kernel threads tohandle work queued previously
@@ -48,21 +48,21 @@ void somework(struct work_struct *data)
 	pr_info("somework()\n");
 }
 
-static int __init lkb_defer_workqueue_init(void)
+static int __init defer_workqueue_init(void)
 {
-	pr_debug("loaded at 0x%p\n", lkb_defer_workqueue_init);
+	pr_debug("loaded at 0x%p\n", defer_workqueue_init);
 	schedule_work(&somework_);
 	return 0;
 }
 
-static void __exit lkb_defer_workqueue_exit(void)
+static void __exit defer_workqueue_exit(void)
 {
 	flush_scheduled_work();
-	pr_debug("unloaded from 0x%p\n", lkb_defer_workqueue_exit);
+	pr_debug("unloaded from 0x%p\n", defer_workqueue_exit);
 }
 
-module_init(lkb_defer_workqueue_init);
-module_exit(lkb_defer_workqueue_exit);
+module_init(defer_workqueue_init);
+module_exit(defer_workqueue_exit);
 
 MODULE_LICENSE("GPL v2");
 MODULE_VERSION("0.0.1");

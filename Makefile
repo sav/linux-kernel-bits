@@ -2,8 +2,8 @@ include $(PWD)/config.mk
 
 LKBVERSION := $(shell cat $(PWD)/VERSION)
 LKBPATCHES := $(wildcard *.patch)
-LKBMODULES := lkb_defer_tasklet lkb_defer_timer \
-	lkb_defer_workqueue lkb_dummie
+LKBMODULES := defer_tasklet defer_timer \
+	defer_workqueue mod_dummie
 
 CONFIGURE_MODULE_SIG=n
 
@@ -65,7 +65,6 @@ load:
 	@for mod in $(LKBMODULES); do \
 		sudo insmod $(PWD)/$${mod}/$${mod}.ko >& /dev/null || true; \
 	done
-	@lsmod | grep lkb_
 .PHONY: load
 
 unload:

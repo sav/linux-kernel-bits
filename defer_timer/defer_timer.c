@@ -22,17 +22,17 @@
 #include <linux/kernel.h>
 #include <linux/module.h>
 
-static int __init lkb_defer_timer_init(void) {
-	pr_debug("loaded at 0x%p\n", lkb_defer_timer_init);
+static int __init defer_timer_init(void) {
+	pr_debug("loaded at 0x%p\n", defer_timer_init);
 	return 0;
 }
 
-static void __exit lkb_defer_timer_exit(void) {
-	pr_debug("unloaded from 0x%p\n", lkb_defer_timer_exit);
+static void __exit defer_timer_exit(void) {
+	pr_debug("unloaded from 0x%p\n", defer_timer_exit);
 }
 
-module_init(lkb_defer_timer_init);
-module_exit(lkb_defer_timer_exit);
+module_init(defer_timer_init);
+module_exit(defer_timer_exit);
 
 MODULE_LICENSE("GPL v2");
 MODULE_VERSION("0.1");

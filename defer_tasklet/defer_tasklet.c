@@ -65,9 +65,9 @@ static void tasklet_handler(unsigned long is_hi)
 	}
 }
 
-static int __init lkb_defer_tasklet_init(void)
+static int __init defer_tasklet_init(void)
 {
-	pr_debug("loaded at 0x%p\n", lkb_defer_tasklet_init);
+	pr_debug("loaded at 0x%p\n", defer_tasklet_init);
 	pr_info("entering with count = %d\n", count);
 
 	tasklet_schedule(&tasklet);
@@ -76,14 +76,14 @@ static int __init lkb_defer_tasklet_init(void)
 	return 0;
 }
 
-static void __exit lkb_defer_tasklet_exit(void) 
+static void __exit defer_tasklet_exit(void) 
 {
 	pr_info("exited with count = %d\n", count);
-	pr_debug("unloaded from 0x%p\n", lkb_defer_tasklet_exit);
+	pr_debug("unloaded from 0x%p\n", defer_tasklet_exit);
 }
 
-module_init(lkb_defer_tasklet_init);
-module_exit(lkb_defer_tasklet_exit);
+module_init(defer_tasklet_init);
+module_exit(defer_tasklet_exit);
 
 MODULE_LICENSE("GPL v2");
 MODULE_VERSION("0.0.1");
